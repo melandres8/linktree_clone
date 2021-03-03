@@ -1,0 +1,33 @@
+<% if user_signed_in? %>
+  <div class="mb-5 mt-2">
+    <h1 class="text-center">Profiles</h1>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @profiles.each do |profile| %>
+      <div class="col">
+          <div class="card border-dark">
+            <div class="card-body text-center">
+              <h3 class="card-title text-center"><%= profile.name %></h3>
+              <hr class="mb-5">
+              <div class="mb-4">
+                <% if profile.avatar.variable? %>
+                  <%= image_tag(profile.avatar.variant(resize_to_limit: [100, 100]), class: "rounded img-thumbnail") %>
+                <% end %>
+              </div>
+              <div>
+                <%= link_to 'Biography', profile, class: "btn btn-outline-primary btn-lg" %>
+              </div>
+              <hr class="mt-5">
+              <div class="text-center">
+                <div class="btn-group">
+                  <td><%= link_to 'Edit', edit_profile_path(profile), class: "btn btn-primary" %></td>
+                  <td><%= link_to 'Delete', profile, class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

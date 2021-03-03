@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<div class="jumbotron">
+  <h1 class="display-4">
+    <%= @profile.name %>
+  </h1>
+  <div class="text-center">
+    <% if @profile.avatar.variable? %>
+      <%= link_to image_tag(@profile.avatar.variant(resize: "400x400"),
+       class: "rounded img-thumbnail"), @profile.avatar, target: :_blank %>
+    <% end %>
+  </div>
+  <hr>
+  <p>
+    <% @profile.socials.each do |social| %>
+      <b><%= social.name %></b>:
+      <%= social.username %>  |
+    <% end %>
+  </p>
+  <h3>
+    <%= @profile.bio %>
+  </h3>
+  <hr>
+
+  <%= link_to 'Edit', edit_profile_path(@profile), class:"btn btn-secondary mt-3" %>
+  <%= link_to 'Back', profiles_path, class:"btn btn-dark mt-3" %>
+</div>
