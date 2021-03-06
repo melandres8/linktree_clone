@@ -22,8 +22,12 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :bio %>
-    <%= form.rich_text_area :bio, class: "form-control" %>
+  <%= form.label :bio %>
+  <%= form.rich_text_area :bio, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.number_field :user_id, id: :profile_user_id, class: "form-control", value: current_user.id, type: :hidden %>
   </div>
 
   <h3>Socials</h3>

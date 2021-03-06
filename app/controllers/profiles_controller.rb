@@ -1,5 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
+  # before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /profiles or /profiles.json
   def index
@@ -13,7 +15,8 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/new
   def new
-    @profile = Profile.new
+    # @profile = Profile.new
+    @profile = current_user.profiles.build
     @profile.socials.build
   end
 
@@ -23,7 +26,8 @@ class ProfilesController < ApplicationController
 
   # POST /profiles or /profiles.json
   def create
-    @profile = Profile.new(profile_params)
+    # @profile = Profile.new(profile_params)
+    @profile = current_user.profiles.build(profile_params)
 
     respond_to do |format|
       if @profile.save
@@ -58,6 +62,11 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def correct_user
+    @profile = current_user.profiles.find_by(id: params[:id])
+    redirect_to profiles_path, notice: "Can't edit this profile" if @profile.nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
@@ -66,6 +75,6 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:name, :bio, :avatar, socials_attributes: [:id, :name, :username])
+      params.require(:profile).permit(:name, :bio, :avatar, :user_id, socials_attributes: [:id, :name, :username])
     end
 end

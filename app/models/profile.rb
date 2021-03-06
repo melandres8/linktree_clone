@@ -7,6 +7,7 @@ class Profile < ApplicationRecord
 
   has_one_attached :avatar
   validate :image_avatar_type
+  belongs_to :user
 
   private
 
